@@ -138,6 +138,10 @@ export default class RNSketchCanvas extends React.Component {
     this._sketchCanvas.clear()
   }
 
+  setStrokeColor(color) {
+	this.setState({ color })  
+  }
+
   undo() {
     return this._sketchCanvas.undo()
   }

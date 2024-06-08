@@ -171,7 +171,8 @@ export default class RNSketchCanvas extends React.Component<RNSketchCanvasProps 
   deletePath(id: number): void
   save(): void
   nextStrokeWidth(): void
-
+  setStrokeColor(color:string): void
+  
   static MAIN_BUNDLE: string
   static DOCUMENT: string
   static LIBRARY: string
