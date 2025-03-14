@@ -94,7 +94,7 @@ class SketchCanvas extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      text: this._processText(nextProps.text ? nextProps.text.map(t => Object.assign({}, t)) : null)
+      text: this._processText(nextProps.text ? nextProps.text.map(t => Object.assign({}, t)) : null),
     })
   }
 
@@ -153,6 +153,10 @@ class SketchCanvas extends React.Component {
   }
 
   componentWillMount() {
+
+
+	const me = this
+
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -164,7 +168,7 @@ class SketchCanvas extends React.Component {
         if (!this.props.touchEnabled) return
         const e = evt.nativeEvent
         this._offset = { x: e.pageX - e.locationX, y: e.pageY - e.locationY }
-        console.log("SKETCH CANVAS COLOR", this.props.strokeColor)
+        console.log("SKETCH CANVAS COLOR", me.props)
         this._path = {
           id: parseInt(Math.random() * 100000000), color: this.props.strokeColor,
           width: this.props.strokeWidth, data: []
