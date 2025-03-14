@@ -164,6 +164,7 @@ class SketchCanvas extends React.Component {
         if (!this.props.touchEnabled) return
         const e = evt.nativeEvent
         this._offset = { x: e.pageX - e.locationX, y: e.pageY - e.locationY }
+        console.log("SKETCH CANVAS COLOR", this.props.strokeColor)
         this._path = {
           id: parseInt(Math.random() * 100000000), color: this.props.strokeColor,
           width: this.props.strokeWidth, data: []
