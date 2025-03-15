@@ -37,7 +37,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 	const clear = useCallback(() => {
 		setPaths([])
 		setPath(null)
-		UIManager.dispatchViewManagerCommand(handle, UIManager.RNSketchCanvas.Commands.clear, [])
+		UIManager.dispatchViewManagerCommand(handle.current, UIManager.RNSketchCanvas.Commands.clear, [])
 	}, [handle])
 
 	const addPath = useCallback((data) => {
@@ -49,7 +49,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 				const coor = p.split(',').map(pp => parseFloat(pp).toFixed(2))
 				return `${coor[0] * screenScale * size.width / data.size.width},${coor[1] * screenScale * size.height / data.size.height}`;
 			})
-			UIManager.dispatchViewManagerCommand(handle, UIManager.RNSketchCanvas.Commands.addPath, [
+			UIManager.dispatchViewManagerCommand(handle.current, UIManager.RNSketchCanvas.Commands.addPath, [
 				data.path.id, processColor(data.path.color), data.path.width * screenScale, pathData
 			])
 		} else {
@@ -64,7 +64,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 
 	const deletePath = useCallback((id) => {
 		setPaths(old => old.filter(p => p.path.id !== id))
-		UIManager.dispatchViewManagerCommand(handle, UIManager.RNSketchCanvas.Commands.deletePath, [id])
+		UIManager.dispatchViewManagerCommand(handle.current, UIManager.RNSketchCanvas.Commands.deletePath, [id])
 	}, [handle])
 
 	const undo = useCallback(() => {
@@ -76,7 +76,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 
 
 	const save = useCallback((imageType, transparent, folder, filename, includeImage, includeText, cropToImageSize) => {
-		UIManager.dispatchViewManagerCommand(handle, UIManager.RNSketchCanvas.Commands.save, [imageType, folder, filename, transparent, includeImage, includeText, cropToImageSize])
+		UIManager.dispatchViewManagerCommand(handle.current, UIManager.RNSketchCanvas.Commands.save, [imageType, folder, filename, transparent, includeImage, includeText, cropToImageSize])
 	}, [handle])
 
 	const getPaths = useCallback(() => {
@@ -85,9 +85,9 @@ const SketchCanvas = forwardRef((props, ref) => {
 
 	const getBase64 = useCallback((imageType, transparent, includeImage, includeText, cropToImageSize, callback) => {
 		if (Platform.OS === 'ios') {
-			SketchCanvasManager.transferToBase64(handle, imageType, transparent, includeImage, includeText, cropToImageSize, callback)
+			SketchCanvasManager.transferToBase64(handle.current, imageType, transparent, includeImage, includeText, cropToImageSize, callback)
 		} else {
-			NativeModules.SketchCanvasModule.transferToBase64(handle, imageType, transparent, includeImage, includeText, cropToImageSize, callback)
+			NativeModules.SketchCanvasModule.transferToBase64(handle.current, imageType, transparent, includeImage, includeText, cropToImageSize, callback)
 		}
 	}, [handle])
 
@@ -127,7 +127,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 				}
 
 				UIManager.dispatchViewManagerCommand(
-					handle,
+					handle.current,
 					UIManager.RNSketchCanvas.Commands.newPath,
 					[
 						_path.id,
@@ -136,7 +136,7 @@ const SketchCanvas = forwardRef((props, ref) => {
 					]
 				)
 				UIManager.dispatchViewManagerCommand(
-					handle,
+					handle.current,
 					UIManager.RNSketchCanvas.Commands.addPoint,
 					[
 						parseFloat((gestureState.x0 - _offset.x).toFixed(2) * screenScale),
